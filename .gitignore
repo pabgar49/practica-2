@@ -1,0 +1,28 @@
+# Local SSH keys and credentials
+/.ssh/
+**/.ssh/
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+/.azure/
+
+# Terraform local state and variable files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+**/.terraform.tfstate.lock.info
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local environment files
+.env
+.env.*
+!.env.example
