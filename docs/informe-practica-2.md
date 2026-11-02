@@ -117,9 +117,25 @@ Por último, abrí en el navegador la dirección pública de la máquina. La pá
 
 # Sección 3: Despliegue desde Azure CLI
 
-## Script utilizado
-## Recursos desplegados
-## Conexión SSH y verificación
+## Preparación y despliegue
+
+El despliegue se realizó con Azure CLI en la región `belgiumcentral`, dentro del grupo de recursos `rg-ejercicio-cli-belgiumcentral`. El [script de despliegue](../cli-deployment/cli-deployment.sh) reúne los comandos empleados para crear el grupo de recursos, la red virtual `vnet-ejercicio-cli-belgiumcentral` con el espacio `10.1.0.0/16`, la subred `snet-default` (`10.1.0.0/24`), el grupo de seguridad de red, la IP pública estática y la interfaz de red.
+
+Para permitir el acceso remoto, se añadió al NSG una regla de entrada para SSH por TCP/22. La regla permite conexiones desde cualquier origen (`*`), tal como se configuró en esta práctica; en un entorno real conviene limitarla a una IP o rango de confianza.
+
+La creación inicial con `Standard_B1s` no fue posible porque Azure informó de falta de capacidad para ese tamaño en Belgium Central. Se volvió a lanzar la creación con `Standard_D2as_v4` y la imagen `Ubuntu2204`, usando el usuario `azureuser` y autenticación mediante clave pública SSH. El script reutiliza el par de claves de `.ssh/vm-cli-key` si ya existe y, si no, lo genera dentro de la carpeta `.ssh` del proyecto. La clave privada no se incluye en el repositorio.
+
+## Comprobación de los recursos
+
+La salida de `az resource list` muestra seis recursos desplegados correctamente: la red virtual, el NSG, la IP pública, la interfaz de red, la máquina virtual y su disco del sistema operativo.
+
+![Listado de recursos desplegados con Azure CLI](../cli-deployment/image-resources-list.png)
+
+## Conexión y verificación por SSH
+
+Una vez obtenida la dirección IP pública, me conecté a la máquina con SSH usando la clave privada y el usuario `azureuser`. La captura muestra el mensaje de bienvenida de Ubuntu 22.04 LTS y el prompt `azureuser@vm-linux-cli-01`, confirmando que el acceso se realizó correctamente.
+
+![Conexión SSH correcta a la VM creada con Azure CLI](../cli-deployment/image-ssh.png)
 
 # Sección 4: Despliegue con Terraform
 ## Archivos de configuración
